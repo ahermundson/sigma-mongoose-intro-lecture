@@ -20,7 +20,7 @@ myApp.controller('PeopleController', ['$http', function($http) {
 
     // add person
     self.addPerson = function() {
-      console.log('add person');
+      console.log('add person', self.newPerson);
       $http.post('/person', self.newPerson)
         .then(function(response) {
           // getData();

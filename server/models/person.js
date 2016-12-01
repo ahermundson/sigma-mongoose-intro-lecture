@@ -4,7 +4,9 @@ var Schema = mongoose.Schema;
 // step 1: create the Schema
 var personSchema = new Schema({
   name: {type: String, required: true},
-  location: String
+  location: String,
+  birthDate: Date,
+  nicenessLevel: Number
 });
 
 personSchema.pre('save', function(next) {
