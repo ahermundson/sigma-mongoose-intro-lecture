@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 // bring in our mongoose model
 var Person = require('../models/person');
+// var XMasList = require('../models/xmaslist');
 
 router.post('/', function(req, res) {
   console.log('post: ', req.body);
@@ -31,11 +32,11 @@ router.get('/', function(req, res) {
   });
 });
 
-router.put('/:id', function(req, res) {
-  console.log('new location: ', req.body);
+router.put('/list/:id', function(req, res) {
+  console.log('new list: ', req.body);
   Person.findByIdAndUpdate(
     { _id: req.params.id },
-    { $set: { location: req.body.location } },
+    { $push: { wishlist: req.body.listItem } },
     function(err, data) {
       if(err) {
         console.log('Put ERR: ', err);
@@ -47,6 +48,25 @@ router.put('/:id', function(req, res) {
 
   )
 });
+
+router.put('/:id', function(req, res) {
+  console.log('new niceness: ', req.body);
+  Person.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { nicenessLevel: req.body.nicenessLevel } },
+    function(err, data) {
+      if(err) {
+        console.log('Put ERR: ', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    }
+
+  )
+});
+
+
 
 router.delete('/:id', function(req, res) {
   console.log('new location: ', req.body);

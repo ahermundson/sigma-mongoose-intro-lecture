@@ -22,8 +22,8 @@
                 <label for="location">Location: </label>
                 <input type="text" ng-model="peeps.newPerson.location" id="location" placeholder="Location" />
                 <label for="nicenessLevel">Niceness Level: </label>
-                <select ng-model="peeps.newPerson.nicenessLevel" name="nicenessLevel">
-                  <option>1</option>
+                <select ng-model="peeps.newPerson.nicenessLevel" name="nicenessLevel" value=1>
+                  <option value="1" ng-selected="true">1</option>
                   <option>2</option>
                   <option>3</option>
                   <option>4</option>
@@ -36,14 +36,30 @@
 
         <div class="row">
           <div class="col-md-12">
-              <div ng-repeat="person in peeps.people" class="well col-md-3" ng-class="{'naughty': {{person.nicenessLevel < 4}}}">
+              <div ng-repeat="person in peeps.people track by $index" class="well col-md-3" ng-class="{'naughty': {{person.nicenessLevel < 4}}}">
                 <p>{{person.name}}</p>
                 <p>{{person.location}}</p>
                 <p>Birth Date: {{person.birthDate | date: 'MM-dd-yyyy'}}</p>
-                <p>Niceness Level: {{person.nicenessLevel}}</p>
+
+                <select ng-options="nicenessLevel as nicenessLevel for nicenessLevel in peeps.nicenessLevelOptions" ng-model="person.nicenessLevel"></select>
+                <br />
                 <span ng-show="{{person.nicenessLevel}} < 4">{{person.name}} is naughty!<br /><br /></span>
-                <button ng-click="peeps.updatePerson(person._id)" class="btn btn-default">Update</button>
+                <button ng-click="peeps.updatePerson(person._id, $index)" class="btn btn-default">Update</button>
                 <button ng-click="peeps.deletePerson(person._id)" class="btn btn-danger">Delete</button>
+
+                <br />
+                <br />
+
+                <label for="name">Add to List: </label>
+                <input type="text" ng-model="person.list" id="list" placeholder="Add to List" />
+                <button ng-click="peeps.addToList(person._id, $index)" class="btn btn-danger">Add Item To List</button>
+
+                <div class="xmas-list">
+                  <ul ng-repeat="item in person.wishlist track by $index">
+                    <li>{{item}}</li>
+                  </ul>
+
+                </div>
             </div>
           </div>
         </div>
